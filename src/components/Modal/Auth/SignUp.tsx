@@ -1,0 +1,97 @@
+import React, { useState } from 'react';
+import { Input, Button, Flex, Text } from "@chakra-ui/react";
+import { useSetRecoilState } from 'recoil';
+import { authModalState } from '../../../atoms/authModalAtom';
+
+type SignUpProps = {
+    
+};
+
+const SignUp:React.FC<LoginProps> = () => {
+    const [signUpForm, setSignUpForm] = useState({
+        email: '',
+        password: '',
+        confirmPassword: '',
+    })
+
+    const onSubmit = () => {}
+
+    const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSignUpForm(prev=>({
+            ...prev,
+            [event.target.name]: event.target.value,
+        }))
+    }
+    
+    const setAuthModalState = useSetRecoilState(authModalState);
+
+    return (
+        <form onSubmit={onSubmit}>
+            <Input 
+            required
+            name="email" 
+            type="email" 
+            placeholder="email" 
+            mb={2} 
+            color="#5596E6"
+            border="none"
+            outline="none"
+            _focus={{outline: "none", border: "none"}}
+            _placeholder={{color: "#5596E6"}}
+            boxShadow="inset 5px 5px 10px #161719, inset -5px -5px 10px #1e1f21"
+            onChange={onChange}
+            />
+            <Input 
+            required
+            name="password" 
+            type="password" 
+            placeholder="password" 
+            mb={2} 
+            color="#5596E6"
+            onChange={onChange}
+            _placeholder={{color: "#5596E6"}}
+            border="none"
+            outline="none"
+            boxShadow="inset 5px 5px 10px #161719, inset -5px -5px 10px #1e1f21"
+            boxSizing="border-box"
+            appearance="none"
+            _focus={{outline: "none", border: "none"}}/>
+            <Input 
+            required
+            name="confirmPassword" 
+            type="password" 
+            placeholder="confirm password" 
+            mb={2} 
+            color="#5596E6"
+            onChange={onChange}
+            _placeholder={{color: "#5596E6"}}
+            border="none"
+            outline="none"
+            boxShadow="inset 5px 5px 10px #161719, inset -5px -5px 10px #1e1f21"
+            boxSizing="border-box"
+            appearance="none"
+            _focus={{outline: "none", border: "none"}}/>
+            <Button type="submit"
+            width="100%"
+            height="36px"
+            mt={2}
+            mb={3}
+            border="none"
+            color="#5596E6"
+            bg="none"
+            boxShadow="5px 5px 10px #161719, -5px -5px 10px #1e1f21"
+            transition="0.5 ease"
+            _hover={{boxShadow: 'inset 5px 5px 10px #161719, inset -5px -5px 10px #1e1f21'}}
+            _focus={{outline: "none"}}>Sign Up</Button>
+            <Flex fontSize="12px" justifyContent="center">
+                <Text mr={2}>Already a trussor?</Text>
+                <Text color="#5596E6" fontWeight="700" cursor="pointer"
+                onClick={() => setAuthModalState(prev => ({
+                    ...prev,
+                    view: "login",
+                }))}>Login In</Text>
+            </Flex>
+        </form>
+    )
+}
+export default SignUp;
