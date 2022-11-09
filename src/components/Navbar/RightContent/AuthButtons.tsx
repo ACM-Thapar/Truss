@@ -8,11 +8,11 @@ const AuthButtons:React.FC = () => {
     return (
         <>
             <Button 
-            bg="#1a1b1d"
+            bg="none"
+            boxShadow="5px 5px 10px #161719, -5px -5px 10px #1e1f21"
+            _hover={{boxShadow: 'inset 5px 5px 10px #161719, inset -5px -5px 10px #1e1f21'}}
+            _focus={{outline: "none"}}
             fontSize="14px"
-            boxShadow="12px 12px 12px 0 rgba(0,0,0,.2), -12px -12px 12px 0 rgba(58, 58, 58, 0.3)"
-            _hover={{boxShadow: "-12px -12px 16px 0 rgba(58, 58, 58, 0.3),12px 12px 16px 0 rgba(0,0,0,.2)"}}
-            _focus={{boxShadow: "-12px -12px 16px 0 rgba(58, 58, 58, 0.3),12px 12px 16px 0 rgba(0,0,0,.2), -12px -12px 16px 0 rgba(58,58,58,0.1) inset, 12px 12px 16px 0 rgba(0,0,0,.2) inset"}}
             fontWeight="400"
             height="35px"
             display={{base: 'none', sm: 'flex'}}
@@ -23,11 +23,11 @@ const AuthButtons:React.FC = () => {
                 Log In
             </Button>
             <Button
-            bg="#1a1b1d"
+            bg="none"
+            boxShadow="5px 5px 10px #161719, -5px -5px 10px #1e1f21"
+            _hover={{boxShadow: 'inset 5px 5px 10px #161719, inset -5px -5px 10px #1e1f21'}}
+            _focus={{outline: "none"}}
             fontSize="14px"
-            boxShadow="12px 12px 12px 0 rgba(0,0,0,.2), -12px -12px 12px 0 rgba(58, 58, 58, 0.3)"
-            _hover={{boxShadow: "-12px -12px 16px 0 rgba(58, 58, 58, 0.3),12px 12px 16px 0 rgba(0,0,0,.2)"}}
-            _focus={{boxShadow: "-12px -12px 16px 0 rgba(58, 58, 58, 0.3),12px 12px 16px 0 rgba(0,0,0,.2), -12px -12px 16px 0 rgba(58,58,58,0.1) inset, 12px 12px 16px 0 rgba(0,0,0,.2) inset"}}
             fontWeight="400"
             height="35px"
             display={{base: 'none', sm: 'flex'}}

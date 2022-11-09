@@ -18,7 +18,7 @@ const SearchInput:React.FC<SearchInputProps> = () => {
                 <Input type='tel' placeholder='Search Truss' fontSize="16px" 
                 _placeholder={{color: "#5596E6"}} 
                 height="34px" 
-                bg="#1a1b1d" 
+                bg="none" 
                 color="#5596E6"
                 outline="none" border="none"  
                 boxShadow="inset 5px 5px 7px #141416, inset -5px -5px 7px #212224" 
