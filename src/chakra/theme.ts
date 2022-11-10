@@ -10,6 +10,7 @@ export const theme = extendTheme({
     brand: {
       100: "#1a1b1d",
       200: "#f6f6f6",
+      300: "#5596E6",
     },
   },
   fonts: {
