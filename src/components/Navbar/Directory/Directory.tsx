@@ -21,7 +21,7 @@ import { auth } from '../../../firebase/clientApp';
 import { signOut } from 'firebase/auth';
 import { useSetRecoilState } from 'recoil'; 
 import { authModalState } from '../../../atoms/authModalAtom';
-
+import Communities from './Communities';
 
 
 
@@ -50,8 +50,7 @@ const Directory:React.FC = () => {
             bg="linear-gradient(145deg, #1c1d1f, #17181a)"
             boxShadow="5px 5px 13px #121214, -5px -5px 13px #222426"
             border="none">
-            
-                
+                <Communities />
             </MenuList>
         </Menu>
     )
