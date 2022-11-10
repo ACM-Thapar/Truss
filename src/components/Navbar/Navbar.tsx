@@ -9,12 +9,12 @@ import { auth } from '../../firebase/clientApp';
 const Navbar:React.FC = () => {
     const [user, loading, error] = useAuthState(auth)
     return (
-        <Flex color="white" height="48px" padding="6px 12px">
-            <Flex align="center">
+        <Flex color="white" height="48px" padding="6px 12px" justify={{ md: "space-between"}}>
+            <Flex align="center" width={{ base: '40px', md: 'auto'}} mr={{ base: 0, md: 2}}>
                 <Image src="./images/logo.png" height="200px" />
             </Flex>
-            <Directory />
-            <SearchInput />
+            {user && <Directory />}
+            <SearchInput user={user} />
             <RightContent user={user}/>
         </Flex>
     )
