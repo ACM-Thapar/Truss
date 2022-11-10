@@ -16,7 +16,7 @@ import { IoSparkles } from 'react-icons/io5';
 import { CgProfile } from 'react-icons/cg';
 import { MdOutlineLogin } from 'react-icons/md';
 import { ChevronDownIcon } from '@chakra-ui/icons'
-import { Button, Icon, Flex } from '@chakra-ui/react';
+import { Button, Icon, Flex, Text } from '@chakra-ui/react';
 import { auth } from '../../../firebase/clientApp';
 import { signOut } from 'firebase/auth';
 import { useSetRecoilState } from 'recoil'; 
@@ -43,9 +43,22 @@ const UserMenu:React.FC<UserMenuProps> = ({ user }) => {
                     
                     <>
                         <Icon as={FaRedditSquare} fontSize={24} mr={1} color="blue" />
-                    </>
                     
-                        
+                    <Flex
+                    direction="column"
+                    display={{ base: "none", lg: "flex"}}
+                    fontSize="8pt"
+                    align="flex-start"
+                    mr={8}>
+                        <Text fontWeight={700}>
+                            {user?.displayName || user.email?.split("@")[0]}
+                        </Text>
+                        <Flex>
+                            <Icon as={IoSparkles} color="brand.100" mr={1} />
+                            <Text color="gray.400">1 karma</Text>
+                        </Flex>
+                    </Flex>
+                    </>
                 ) : 
                 (
                     <Icon as={VscAccount} fontSize={24} mr={1} color="gray" />
