@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input, Button, Flex, Text } from "@chakra-ui/react";
 import { useSetRecoilState } from 'recoil';
 import { authModalState } from '../../../atoms/authModalAtom';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
-import { auth } from '../../../firebase/clientApp';
+import { auth, firestore } from '../../../firebase/clientApp';
+import { doc, runTransaction, serverTimestamp, setDoc, getDoc, addDoc, collection } from "firebase/firestore";
+import { User } from 'firebase/auth'
+
 import { FIREBASE_ERRORS } from '../../../firebase/errors';
 
 type SignUpProps = {
@@ -19,7 +22,7 @@ const SignUp:React.FC<LoginProps> = () => {
 
     const [error, setError] = useState('')
     const [createUserWithEmailAndPassword,
-        user,
+        userCred,
         loading,
         userError] = useCreateUserWithEmailAndPassword(auth);
 
@@ -43,6 +46,17 @@ const SignUp:React.FC<LoginProps> = () => {
             [event.target.name]: event.target.value,
         }))
     }
+
+    const createUserDocument = async (user: User) => {
+        await addDoc(collection(firestore, "users"), JSON.parse(JSON.stringify(user)))
+    }
+
+    useEffect(() => {
+      if (userCred) {
+        createUserDocument(userCred.user)
+      }
+    }, [userCred])
+    
     
     const setAuthModalState = useSetRecoilState(authModalState);
 

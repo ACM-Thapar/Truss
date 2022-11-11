@@ -44,20 +44,32 @@ const CreateCommunityModal:React.FC<CreateCommunityModalProps> = ({ open, handle
         setLoading(true)
 
         try {
-            const communityDocRef = doc(firestore, "communities", communityName)
-        const communityDoc = await getDoc(communityDocRef)
+        const communityDocRef = doc(firestore, "communities", communityName)
 
-        if (communityDoc.exists()) {
+        await runTransaction(firestore, async (transaction) => {
+            const communityDoc = await transaction.get(communityDocRef)
+
+            if (communityDoc.exists()) {
             throw new Error(`Sorry, r/${communityName} is taken. Try another.`)
-        }
+            }
 
-        await setDoc(communityDocRef, {
-            creatorId: user?.uid,
-            createdAt: serverTimestamp(),
-            numberOfMembers: 1,
-            privacyType: communityType,
+            transaction.set(communityDocRef, {
+                creatorId: user?.uid,
+                createdAt: serverTimestamp(),
+                numberOfMembers: 1,
+                privacyType: communityType,
+    
+            })
 
-        })
+            transaction.set(doc(firestore, `users/${user?.uid}/communitySnippets`, communityName), {
+                communityId: communityName,
+                isModerator: true
+            })
+        }) 
+
+        
+
+        
         setLoading(false)
         } catch (error: any) {
             console.log(error)
