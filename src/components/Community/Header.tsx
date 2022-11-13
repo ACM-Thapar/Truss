@@ -15,8 +15,9 @@ const Header:React.FC<HeaderProps> = ({ communityData }) => {
     return (
         <Flex
         direction="column" width="100%" height="146px">
-            <Box height="50%" bg="blue.400" />
-            <Flex justify="center" bg="white" flexGrow={1}>
+            <Box height="50%" bg="none" />
+            <Flex justify="center" bg="none" flexGrow={1}
+            boxShadow="inset 5px 5px 10px #161719, inset -5px -5px 10px #1e1f21">
                 <Flex width="95%" maxWidth="860px">
                     {communityData.imageURL ? (
                         <Image />
@@ -34,6 +35,7 @@ const Header:React.FC<HeaderProps> = ({ communityData }) => {
                             <Text
                             fontWeight={800}
                             fontSize="16pt"
+                            color="#5596E6"
                             >
                                 {communityData.id}
                             </Text>
@@ -46,10 +48,14 @@ const Header:React.FC<HeaderProps> = ({ communityData }) => {
                             </Text>
                         </Flex>
                         <Button
-                        variant={isJoined ? "outline" : "solid"}
+                        bg="none"
+                        outline="none"
+                        border="none"
                         height="30px"
                         pr={6}
                         pl={6}
+                        boxShadow={isJoined ? 'inset 5px 5px 10px #161719, inset -5px -5px 10px #1e1f21' : "5px 5px 10px #161719, -5px -5px 10px #1e1f21"}
+                        _hover={{ boxShadow: isJoined ? 'inset 5px 5px 10px #161719, inset -5px -5px 10px #1e1f21' : "5px 5px 10px #161719, -5px -5px 10px #1e1f21" }}
                         onClick={() => onJoinOrLeaveCommunity(communityData, isJoined)}>
                             {isJoined ? "Joined" : "Join"}
                         </Button>
