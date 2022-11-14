@@ -11,9 +11,9 @@ const SubmitPostPage:React.FC = () => {
                 <Box
                 padding="14px 0px" 
                 borderBottom="1px solid"
-                borderColor="white"
+                borderColor="#5596E6"
                 >
-                    <Text>
+                    <Text color="#5596E6">
                         Create a post
                     </Text>
                 </Box>
