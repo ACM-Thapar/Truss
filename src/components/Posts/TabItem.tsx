@@ -4,20 +4,26 @@ import { TabItem } from './NewPostForm';
 
 type TabItemProps = {
     item: TabItem;
-    selected: boolean
+    selected: boolean;
+    setSelectedTab: (value: string) => void;
 };
 
-const TabItem:React.FC<TabItemProps> = ({ item, selected }) => {
+const TabItem:React.FC<TabItemProps> = ({ item, selected, setSelectedTab }) => {
     
     return (
         <Flex
         justify="center"
         align="center"
         flexGrow={1}
+        fontWeight={700}
         p="14px 0px"
         cursor="pointer"
-        _hover={{ bg: "gray.500" }}
-        color = {selected ? "blue.500" : "black"}
+        _hover={{ bg:"linear-gradient(145deg, #17181a, #1c1d1f)", boxShadow: "7px 7px 26px #161618, -7px -7px 26px #1e2022" }}
+        color = {selected ? "#5596E6" : "white"}
+        borderWidth={selected ? "0px 0px 2px 0px" : "0px 0px 1px 0px"}
+        borderBottomColor={selected ? "#5596E6" : "transparent"}
+        borderRightColor="none"
+        onClick={() => setSelectedTab(item.title)}
         >
             <Flex
             align="center"
