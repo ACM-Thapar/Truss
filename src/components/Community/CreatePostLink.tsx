@@ -24,6 +24,7 @@ const CreatePostLink: React.FC = () => {
     }
 
     return (
+        
         <Flex
         justify="space-evenly"
         align="center"
@@ -34,6 +35,7 @@ const CreatePostLink: React.FC = () => {
         p={2}
         mb={4}
         >
+        
             <Icon as={FaReddit} fontSize={36} color="gray.300" mr={4} />
             <Input
             placeholder="Create Post" 
@@ -48,7 +50,7 @@ const CreatePostLink: React.FC = () => {
             _focus={{
                 outline: "none",
                 bg: "none", 
-                border: "none"
+                border: "none",
                 borderColor: "none"
             }}
             height="36px"
@@ -65,6 +67,7 @@ const CreatePostLink: React.FC = () => {
             />
             <Icon as={BsLink45Deg} fontSize={24} color="gray.400" cursor="pointer" />
         </Flex>
+        
     )
 }
 

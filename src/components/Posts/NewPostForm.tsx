@@ -6,6 +6,7 @@ import { IoDocumentText, IoImageOutline } from 'react-icons/io5';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import TabItem from './TabItem';
 import TextInputs from './PostForm/TextInputs';
+import ImageUpload from './PostForm/ImageUpload';
 
 type NewPostFormProps = {
     
@@ -49,12 +50,20 @@ const NewPostForm:React.FC<NewPostFormProps> = () => {
     })
 
     const [selectedFile, setSelectedFile] = useState<string>()
+    const [loading, setLoading] = useState(false);
+
 
     const handleCreatePost = async () => {}
 
     const onSelectImage = () => {}
 
-    const onTextChange = () => {}
+    const onTextChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { target: { name, value } } = event; 
+        setTextInputs(prev => ({
+            ...prev,
+            [name]: value,
+        }))
+    }
 
     return (
         <Flex
@@ -67,11 +76,14 @@ const NewPostForm:React.FC<NewPostFormProps> = () => {
             <Flex width="100%"
             >
                 {formTabs.map((item) => (
-                    <TabItem item={item} selected={item.title === selectedTab} setSelectedTab={setSelectedTab} />
+                    <TabItem item={item} key={item.title} selected={item.title === selectedTab} setSelectedTab={setSelectedTab} />
                 ))}
             </Flex>
             <Flex p={4}>
-                <TextInputs />
+                {selectedTab === "Post" && (<TextInputs textInputs={textInputs} handleCreatePost={handleCreatePost} onChange={onTextChange} loading={loading} />)}
+                {selectedTab === "Images & Video" && (
+                    <ImageUpload />
+                )}
             </Flex>
         </Flex>
     )
