@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Flex, Button, Text } from '@chakra-ui/react';
+import { Stack, Flex, Button, Text, Image } from '@chakra-ui/react';
 
 type ImageUploadProps = {
     selectedFile?: string;
@@ -15,8 +15,27 @@ const ImageUpload:React.FC<ImageUploadProps> = ({ selectedFile, onSelectImage, s
     return (
         <Flex justify="center"
         align="center"
-        width="100%">
-            <Flex justify="center" align="center" p={20}
+        width="100%"
+        direction="column">
+            {selectedFile ? (
+                <>
+                    <Image src={selectedFile}
+                    maxWidth="400px" maxHeight="400px" />
+                    <Stack direction="row" mt={4}>
+                        <Button
+                        height="28px"
+                        onClick={() => setSelectedTab("Post")}>
+                            Back to Post
+                        </Button>
+                        <Button
+                        height="28px"
+                        onClick={() => setSelectedFile('')}>
+                            Remove
+                        </Button>
+                    </Stack>
+                </>
+            ) : 
+            (<Flex justify="center" align="center" p={20}
             border="1px dashed"
             borderColor="gray.200"
             width="100%"
@@ -33,9 +52,8 @@ const ImageUpload:React.FC<ImageUploadProps> = ({ selectedFile, onSelectImage, s
                 _focus={{ bg: "none"}}
                 onClick={() => selectedFileRef.current?.click()}>Upload
                 </Button>
-                <input ref={selectedFileRef} type="file" hidden />
-                <img src={selectedFile} />
-            </Flex>
+                <input ref={selectedFileRef} type="file" hidden onChange={onSelectImage} />
+            </Flex>)}
         </Flex>
     )
 }
