@@ -2,11 +2,15 @@ import React, { useRef } from 'react';
 import { Flex, Button, Text } from '@chakra-ui/react';
 
 type ImageUploadProps = {
-    
+    selectedFile?: string;
+    onSelectImage: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    setSelectedTab: (value: string) => void;
+    setSelectedFile: (value: string) => void;
+
 };
 
-const ImageUpload:React.FC<ImageUploadProps> = () => {
-    const selectedFileRef = useRef()
+const ImageUpload:React.FC<ImageUploadProps> = ({ selectedFile, onSelectImage, setSelectedTab, setSelectedFile}) => {
+    const selectedFileRef = useRef<HTMLInputElement>(null)
 
     return (
         <Flex justify="center"
@@ -26,9 +30,11 @@ const ImageUpload:React.FC<ImageUploadProps> = () => {
                 fontWeight="600"
                 height="28px"
                 _hover={{ bg: "none"}}
-                _focus={{ bg: "none"}}>Upload
+                _focus={{ bg: "none"}}
+                onClick={() => selectedFileRef.current?.click()}>Upload
                 </Button>
-                <input type="file" />
+                <input ref={selectedFileRef} type="file" hidden />
+                <img src={selectedFile} />
             </Flex>
         </Flex>
     )

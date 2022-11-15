@@ -53,7 +53,7 @@ const TextInputs:React.FC<TextInputsProps> = ({ textInputs, onChange, handleCrea
                 _hover={{boxShadow: 'inset 5px 5px 10px #161719, inset -5px -5px 10px #1e1f21'}}
                 _focus={{outline: "none", bg: "none", border: "none"}}
                 isLoading={loading}
-                disable={!textInputs.title}
+                disabled={!textInputs.title}
                 onClick={handleCreatePost}>Post</Button>
             </Flex>
         </Stack>
