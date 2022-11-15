@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { BiPoll } from 'react-icons/bi';
 import { BsLink45Deg, BsMic } from 'react-icons/bs';
 import { IoDocumentText, IoImageOutline } from 'react-icons/io5';
 import { AiFillCloseCircle } from 'react-icons/ai';
+import { User } from "firebase/auth";
 import TabItem from './TabItem';
 import TextInputs from './PostForm/TextInputs';
 import ImageUpload from './PostForm/ImageUpload';
 
 type NewPostFormProps = {
-    
+    communityId: string;
+    communityImageURL?: string;
+    user: User;
 };
 
 const formTabs: TabItem[] = [
@@ -41,7 +44,10 @@ export type TabItem = {
 }
 
 
-const NewPostForm:React.FC<NewPostFormProps> = () => {
+const NewPostForm:React.FC<NewPostFormProps> = ({ communityId,
+    communityImageURL,
+    user, 
+    }) => {
     const [selectedTab, setSelectedTab] = useState(formTabs[0].title);
     
     const [textInputs, setTextInputs] = useState({
