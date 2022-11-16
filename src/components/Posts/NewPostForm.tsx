@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, ReactEventHandler } from 'react';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { BiPoll } from 'react-icons/bi';
 import { BsLink45Deg, BsMic } from 'react-icons/bs';
@@ -6,8 +6,14 @@ import { IoDocumentText, IoImageOutline } from 'react-icons/io5';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { User } from "firebase/auth";
 import TabItem from './TabItem';
+import { useRouter } from 'next/router';
 import TextInputs from './PostForm/TextInputs';
 import ImageUpload from './PostForm/ImageUpload';
+import { firestore, storage } from "../../firebase/clientApp";
+import { postState, Post } from "../../atoms/postsAtom";
+import { serverTimestamp, Timestamp, addDoc, collection, doc, updateDoc } from "firebase/firestore";
+import { getDownloadURL, ref, uploadString } from "firebase/storage";
+
 
 type NewPostFormProps = {
     communityId: string;
@@ -48,6 +54,7 @@ const NewPostForm:React.FC<NewPostFormProps> = ({ communityId,
     communityImageURL,
     user, 
     }) => {
+    const router = useRouter();
     const [selectedTab, setSelectedTab] = useState(formTabs[0].title);
     
     const [textInputs, setTextInputs] = useState({
@@ -59,7 +66,38 @@ const NewPostForm:React.FC<NewPostFormProps> = ({ communityId,
     const [loading, setLoading] = useState(false);
 
 
-    const handleCreatePost = async () => {}
+    const handleCreatePost = async () => {
+        const { communityId } = router.query;
+        const newPost: Post = {
+            communityId: communityId as string,
+            creatorId: user?.uid,
+            creatorDisplayName: user.email!.split('@')[0],
+            title: textInputs.title,
+            body: textInputs.body,
+            numberOfComments: 0,
+            voteStatus: 0,
+            createdAt: serverTimestamp() as Timestamp,
+        }
+        setLoading(true)
+
+        try {
+            const postDocRef = await addDoc(collection(firestore, 'posts'), newPost)
+
+            if (selectedFile) {
+                const imageRef = ref(storage, `posts/${postDocRef.id}/image`);
+                await uploadString(imageRef, selectedFile, 'data_url');
+                const downloadURL = await getDownloadURL(imageRef);
+
+                await updateDoc(postDocRef, {
+                    imageURL: downloadURL,
+                })
+            }
+        } catch (error: any) {
+            console.log(error.message);
+        }
+        setLoading(false);
+        // router.back()
+    }
 
     const onSelectImage = (event: React.ChangeEvent<HTMLInputElement>) => {
         const reader = new FileReader()
