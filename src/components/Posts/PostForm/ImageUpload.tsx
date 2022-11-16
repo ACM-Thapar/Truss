@@ -24,11 +24,25 @@ const ImageUpload:React.FC<ImageUploadProps> = ({ selectedFile, onSelectImage, s
                     <Stack direction="row" mt={4}>
                         <Button
                         height="28px"
+                        bg="none"
+                        boxShadow="5px 5px 10px #161719, -5px -5px 10px #1e1f21"
+                        border="none"
+                        color="#5596E6"
+                        outline="none"
+                        p={4}
+                        _hover={{boxShadow: 'inset 5px 5px 10px #161719, inset -5px -5px 10px #1e1f21'}}
                         onClick={() => setSelectedTab("Post")}>
                             Back to Post
                         </Button>
                         <Button
                         height="28px"
+                        bg="none"
+                        boxShadow="5px 5px 10px #161719, -5px -5px 10px #1e1f21"
+                        border="none"
+                        outline="none"
+                        p={4}
+                        color="#5596E6"
+                        _hover={{boxShadow: 'inset 5px 5px 10px #161719, inset -5px -5px 10px #1e1f21'}}
                         onClick={() => setSelectedFile('')}>
                             Remove
                         </Button>
