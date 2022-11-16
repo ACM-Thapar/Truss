@@ -13,6 +13,12 @@ import { firestore, storage } from "../../firebase/clientApp";
 import { postState, Post } from "../../atoms/postsAtom";
 import { serverTimestamp, Timestamp, addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import {
+    Alert,
+    AlertIcon,
+    AlertTitle,
+    AlertDescription,
+} from '@chakra-ui/react'
 
 
 type NewPostFormProps = {
@@ -64,7 +70,7 @@ const NewPostForm:React.FC<NewPostFormProps> = ({ communityId,
 
     const [selectedFile, setSelectedFile] = useState<string>()
     const [loading, setLoading] = useState(false);
-
+    const [error, setError] = useState(false);
 
     const handleCreatePost = async () => {
         const { communityId } = router.query;
@@ -94,6 +100,7 @@ const NewPostForm:React.FC<NewPostFormProps> = ({ communityId,
             }
         } catch (error: any) {
             console.log(error.message);
+            setError(true);
         }
         setLoading(false);
         // router.back()
@@ -141,6 +148,13 @@ const NewPostForm:React.FC<NewPostFormProps> = ({ communityId,
                     <ImageUpload selectedFile={selectedFile} onSelectImage={onSelectImage} setSelectedTab={setSelectedTab} setSelectedFile={setSelectedFile} />
                 )}
             </Flex>
+            {error && (
+                <Alert status='error'
+                bg="none">
+                <AlertIcon />
+                <Text mr={2} fontSize="10pt" color="#e53e3e">Error creating post</Text>
+                </Alert>
+            )}
         </Flex>
     )
 }
