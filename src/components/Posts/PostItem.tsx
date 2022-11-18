@@ -28,26 +28,26 @@ const PostItem:React.FC<PostItemProps> = ({ post, userIsCreator, userVoteValue, 
     const [loadingImage, setLoadingImage] = useState(true)
     return (
         <Flex
-        border="1px solid"
-        bg="white"
-        borderColor="gray.300"
+        boxShadow="7px 7px 14px #161618, -7px -7px 14px #1e2022"
+        bg="none"
         borderRadius={4}
         cursor="pointer"
         onClick={onSelectPost}>
             <Flex direction="column"
             align="center"
-            bg="gray.100"
+            bg="linear-gradient(145deg, #17181a, #1c1d1f)"
+            boxShadow="7px 7px 20px #161719, -7px -7px 20px #1e1f21"
             p={2}
             width='40px'
             borderRadius={4}>
                 <Icon as={userVoteValue === 1 ? IoArrowUpCircleSharp : IoArrowUpCircleOutline}
-                color={userVoteValue === 1 ? 'orange' : 'gray.400'}
+                color={userVoteValue === 1 ? 'orange' : '#5596E6'}
                 fontSize={22}
                 cursor="pointer"
                 onClick={onVote} />
-                <Text fontSize="9pt">{post.voteStatus}</Text>
+                <Text fontSize="9pt" color="#5596E6">{post.voteStatus}</Text>
                 <Icon as={userVoteValue === -1 ? IoArrowDownCircleSharp : IoArrowDownCircleOutline}
-                color={userVoteValue === -1 ? '#4379ff' : 'gray.400'}
+                color={userVoteValue === -1 ? '#4379ff' : '#5596E6'}
                 cursor="pointer"
                 fontSize={22}
                 onClick={onVote} />
@@ -62,12 +62,13 @@ const PostItem:React.FC<PostItemProps> = ({ post, userIsCreator, userVoteValue, 
                     align="center"
                     fontSize="9pt"
                     >
-                        <Text>Posted by u/{post.creatorDisplayName} {" "} {moment(new Date(post.createdAt?.seconds * 1000)).fromNow()}</Text>
+                        <Text color="gray.600">Posted by u/{post.creatorDisplayName} {" "} {moment(new Date(post.createdAt?.seconds * 1000)).fromNow()}</Text>
                     </Stack>
                     <Text
                     fontSize="12pt"
-                    fontWeight={600}>{post.title}</Text>
-                    <Text fontSize="10pt">{post.body}</Text>
+                    fontWeight={600}
+                    color="#5596E6">{post.title}</Text>
+                    <Text fontSize="10pt" color="#5596E6">{post.body}</Text>
                     {post.imageURL && (
                         <Flex justify="center" align="center" p={2}>
                             {loadingImage && (
