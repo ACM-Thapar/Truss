@@ -19,13 +19,27 @@ type PostItemProps = {
     userIsCreator: boolean;
     userVoteValue?: number;
     onVote: () => {};
-    onDeletePost: () => {};
+    onDeletePost: (post: Post) => Promise<boolean>;
     onSelectPost: () => void;
 
 };
 
 const PostItem:React.FC<PostItemProps> = ({ post, userIsCreator, userVoteValue, onVote, onDeletePost, onSelectPost}) => {
     const [loadingImage, setLoadingImage] = useState(true)
+    const [error, setError] = useState(false)
+    const handleDelete = async () => {
+        console.log("delete")
+        try {
+            const success = await onDeletePost(post)
+            if (!success) {
+                throw new Error("Failed to delete post")
+            }
+            console.log("successfully deleted")
+        } catch (error: any) {
+            setError(error.message)
+        }
+    }
+
     return (
         <Flex
         boxShadow="7px 7px 14px #161618, -7px -7px 14px #1e2022"
@@ -99,7 +113,7 @@ const PostItem:React.FC<PostItemProps> = ({ post, userIsCreator, userVoteValue, 
                         <Text fontSize="9pt">Save</Text>
                     </Flex>
                     {userIsCreator && (<Flex align="center" p="8px 10px" borderRadius={4}
-                    cursor="pointer" onClick={onDeletePost}>
+                    cursor="pointer" onClick={handleDelete}>
                         <Icon as={AiOutlineDelete} mr={2}/>
                         <Text fontSize="9pt">Delete</Text>
                     </Flex>)}
