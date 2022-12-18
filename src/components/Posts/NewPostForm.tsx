@@ -9,6 +9,7 @@ import TabItem from './TabItem';
 import { useRouter } from 'next/router';
 import TextInputs from './PostForm/TextInputs';
 import ImageUpload from './PostForm/ImageUpload';
+import useSelectFile from '../../hooks/useSelectFile';
 import { firestore, storage } from "../../firebase/clientApp";
 import { postState, Post } from "../../atoms/postsAtom";
 import { serverTimestamp, Timestamp, addDoc, collection, doc, updateDoc } from "firebase/firestore";
@@ -68,7 +69,8 @@ const NewPostForm:React.FC<NewPostFormProps> = ({ communityId,
         body: '',
     })
 
-    const [selectedFile, setSelectedFile] = useState<string>()
+    // const [selectedFile, setSelectedFile] = useState<string>()
+    const { selectedFile, setSelectedFile, onSelectFile } = useSelectFile()
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
 
@@ -106,19 +108,6 @@ const NewPostForm:React.FC<NewPostFormProps> = ({ communityId,
         setLoading(false);
         
     }
-
-    const onSelectImage = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const reader = new FileReader()
-        if (event.target.files?.[0]) {
-            reader.readAsDataURL(event.target.files[0])
-        }
-        reader.onload = (readerEvent) => {
-            if (readerEvent.target?.result) {
-                setSelectedFile(readerEvent.target.result as string)
-            }
-                
-            }
-        }
     
 
     const onTextChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -146,7 +135,7 @@ const NewPostForm:React.FC<NewPostFormProps> = ({ communityId,
             <Flex p={4}>
                 {selectedTab === "Post" && (<TextInputs textInputs={textInputs} handleCreatePost={handleCreatePost} onChange={onTextChange} loading={loading} />)}
                 {selectedTab === "Images & Video" && (
-                    <ImageUpload selectedFile={selectedFile} onSelectImage={onSelectImage} setSelectedTab={setSelectedTab} setSelectedFile={setSelectedFile} />
+                    <ImageUpload selectedFile={selectedFile} onSelectImage={onSelectFile} setSelectedTab={setSelectedTab} setSelectedFile={setSelectedFile} />
                 )}
             </Flex>
             {error && (
