@@ -60,8 +60,9 @@ const About:React.FC<AboutProps> = ({ communityData }) => {
             <Flex 
             justify="space-between" 
             align='center'
-            bg='blue.400'
-            color="white"
+            bg='#1a1b1d'
+            color="#5596E6"
+            boxShadow="inset 9px 9px 18px #17181a, inset -9px -9px 18px #1d1e20"
             p={3}
             borderRadius='4px 4px 0px 0px'>
                 <Text
@@ -73,27 +74,29 @@ const About:React.FC<AboutProps> = ({ communityData }) => {
             <Flex 
             direction="column"
             p={3}
-            bg="white"
+            bg="#1a1b1d"
+            color="#5596E6"
+            boxShadow="9px 9px 18px #17181a, -9px -9px 18px #1d1e20"
             borderRadius="0px 0px 4px 4px">
                 <Stack>
                     <Flex
                     width="100%"
                     p={2}
                     fontSize="10pt">
-                        <Flex direction="column" flexGrow={1} color="black" fontWeight={700}>
+                        <Flex direction="column" flexGrow={1} fontWeight={700}>
                             <Text >
                                 {communityData.numberOfMembers.toLocaleString()}
                             </Text>
                             <Text>Members</Text>
                         </Flex>
-                        <Flex direction="column" flexGrow={1} color="black" fontWeight={700} >
+                        <Flex direction="column" flexGrow={1} fontWeight={700} >
                             <Text>1</Text>
                             <Text>Online</Text>
                         </Flex>
                     </Flex>
                     <Divider />
                     <Flex
-                    color="black"
+                    color="#5596E6"
                     align='center'
                     width="100%"
                     p={1}
@@ -105,7 +108,11 @@ const About:React.FC<AboutProps> = ({ communityData }) => {
                     <Link href={`${communityData.id}/submit`}>
                         <Button
                         mt={3}
-                        height="30px">
+                        height="30px"
+                        width="100%"
+                        bg="none"
+                        boxShadow="5px 5px 10px #161719, -5px -5px 10px #1e1f21"
+                        _hover={{boxShadow: 'inset 5px 5px 10px #161719, inset -5px -5px 10px #1e1f21'}}>
                             Create Post
                         </Button>
                     </Link>
@@ -137,12 +144,12 @@ const About:React.FC<AboutProps> = ({ communityData }) => {
                                 </Flex>
                             {selectedFile && (
                                 (uploadingImage ? (
-                                    <Spinner color="black" />
+                                    <Spinner color="#5596E6" />
                                     
                                 ) : (
                                     <Text
                                     cursor="pointer"
-                                    color="black"
+                                    color="orange"
                                     onClick={onUpdateImage}
                                     >Save Image</Text>
                                 ))
