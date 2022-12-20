@@ -15,14 +15,23 @@ export type Post = {
     communityImageURL?: string; 
 }
 
+export type postVote = {
+    id: string;
+    postId: string;
+    communityId: string;
+    voteValue: number;
+}
+
 interface PostState {
     selectedPost: Post | null;
     posts: Post[]
+    postVotes: PostVote[];
 }
 
 const defaultPostState: PostState = {
     selectedPost: null,
     posts: [],
+    postVotes: [],
 }
 
 export const postState = atom<PostState> ({
