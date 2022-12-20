@@ -1,5 +1,5 @@
 import React from 'react';
-import { Community } from '../../atoms/communitiesAtom'
+import { Community, communityState } from '../../atoms/communitiesAtom'
 import { Button, Image, Flex, Box, Icon, Text } from '@chakra-ui/react';
 import { FaReddit } from 'react-icons/fa';
 import useCommunityData from '../../hooks/useCommunityData';
@@ -19,8 +19,16 @@ const Header:React.FC<HeaderProps> = ({ communityData }) => {
             <Flex justify="center" bg="none" flexGrow={1}
             boxShadow="inset 5px 5px 10px #161719, inset -5px -5px 10px #1e1f21">
                 <Flex width="95%" maxWidth="860px">
-                    {communityData.imageURL ? (
-                        <Image />
+                    {communityStateValue.currentCommunity?.imageURL ? (
+                        <Image src={communityStateValue.currentCommunity?.imageURL} 
+                        borderRadius="full"
+                        alt="Dan"
+                        boxSize="66px"
+                        position="relative"
+                        color="blue.500"
+                        top={-3}
+                        border="4px solid white
+                        " />
                     ) : (
                         <Icon as = {FaReddit} 
                         fontSize={64} 
