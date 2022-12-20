@@ -1,19 +1,57 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Community } from '../../atoms/communitiesAtom';
-import { Box, Flex, Text, Icon, Stack, Divider, Button } from '@chakra-ui/react';
+import { Box, Flex, Text, Icon, Stack, Divider, Button, Spinner, Image } from '@chakra-ui/react';
 import { RiCakeLine } from 'react-icons/ri';
-import { useRouter } from 'next/router';
 import moment from "moment";
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
+import { FaReddit } from 'react-icons/fa';
 import Link from 'next/link';
-
+import { auth, firestore, storage } from '../../firebase/clientApp';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import useSelectFile from '../../hooks/useSelectFile';
+import { Community, communityState } from "../../atoms/communitiesAtom";
+import { ref, getDownloadURL, uploadString } from 'firebase/storage';
+import { updateDoc, doc } from 'firebase/firestore';
+import { useSetRecoilState } from 'recoil';
 
 type AboutProps = {
     communityData: Community;
 };
 
 const About:React.FC<AboutProps> = ({ communityData }) => {
-    const router = useRouter();
+    const [user] = useAuthState(auth);
+    const selectedFileRef = useRef<HTMLInputElement>(null)
+    const { selectedFile, setSelectedFile, onSelectFile } = useSelectFile()
+    const [uploadingImage, setUploadingImage] = useState(false)
+    const setCommunityStateValue = useSetRecoilState(communityState)
+
+    const onUpdateImage = async () => {
+        if (!selectedFile) {
+            return
+        }
+        setUploadingImage(true)
+        try {
+            const imageRef = ref(storage, `communities/${communityData.id}/image`)
+            await uploadString(imageRef, selectedFile, 'data_url')
+            const downloadURL = await getDownloadURL(imageRef)
+            await updateDoc(doc(firestore, 'communities', communityData.id), {
+                imageURL: downloadURL,
+            })
+
+            setCommunityStateValue((prev) => ({
+                ...prev,
+                currentCommunity: {
+                    ...prev.currentCommunity,
+                    imageURL: downloadURL,
+                } as Community,
+            }))
+            console.log("uploading now")
+        } catch (error) {
+            console.log(error)
+        }
+        setUploadingImage(false)
+    }
+
     return (
         <Box
         position="sticky"
@@ -64,13 +102,60 @@ const About:React.FC<AboutProps> = ({ communityData }) => {
                         <Icon as={RiCakeLine} fontSize={18} mr={2} />
                         {communityData.createdAt && (<Text>Created {moment(new Date(communityData.createdAt?.seconds * 1000)).format('MMM DD, YYYY')} </Text>)}
                     </Flex>
-                    <Link href={`${router.query.communityId}/submit`}>
+                    <Link href={`${communityData.id}/submit`}>
                         <Button
                         mt={3}
                         height="30px">
                             Create Post
                         </Button>
                     </Link>
+                    {user?.uid === communityData.creatorId && (
+                        <>
+                            <Divider />
+                            <Stack
+                            spacing={1}
+                            fontSize="10pt"
+                            >
+                                <Text fontWeight={600}>Admin</Text>
+                                <Flex align="center" justify="space-between">
+                                    <Text
+                                    color="blue.500"
+                                    cursor="pointer"
+                                    _hover={{ textDecoration: "underline" }}
+                                    onClick={()=> selectedFileRef.current?.click()}>Change Image
+                                    </Text>
+                                    {communityData.imageURL || selectedFile ? (
+                                        <Image src={selectedFile || communityData.imageURL} 
+                                        borderRadius="full" boxSize="40px" alt="Community Image" />
+                                    ) : (
+                                        <Icon 
+                                        as={FaReddit}
+                                        fontSize={40}
+                                        color="brand.100"
+                                        mr={2}/>
+                                    )}
+                                </Flex>
+                            {selectedFile && (
+                                (uploadingImage ? (
+                                    <Spinner color="black" />
+                                    
+                                ) : (
+                                    <Text
+                                    cursor="pointer"
+                                    color="black"
+                                    onClick={onUpdateImage}
+                                    >Save Image</Text>
+                                ))
+                            )}
+                            <input type="file"
+                            id="file-upload"
+                            accept="image/x-png,image/gif,image/jpeg"
+                            hidden
+                            ref={selectedFileRef}
+                            onChange={onSelectFile} />
+                            </Stack>
+                        </>
+                    )}
                 </Stack>
             </Flex>
         </Box>
