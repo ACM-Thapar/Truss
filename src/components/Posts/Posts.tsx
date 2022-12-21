@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Stack } from '@chakra-ui/react';
 import { Community } from '../../atoms/communitiesAtom'
-import { Post } from '../../atoms/postsAtom'
+import { Post, postState, PostVote } from '../../atoms/postsAtom'
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { collection, query, where, orderBy, getDocs } from "firebase/firestore";
+import { collection, query, where, orderBy, getDocs, writeBatch } from "firebase/firestore";
 import { auth, firestore } from "../../firebase/clientApp";
 import usePosts from '../../hooks/usePosts';
 import PostItem from './PostItem';
@@ -51,7 +51,7 @@ const Posts:React.FC<PostsProps> = ({ communityData }) => {
             <PostLoader />
         ) : (
             <Stack color="black">
-            {postStateValue.posts.map((item) => <PostItem key={item.id} post={item} userIsCreator={user?.uid === item.creatorId} userVoteValue={undefined}
+            {postStateValue.posts.map((item) => <PostItem key={item.id} post={item} userIsCreator={user?.uid === item.creatorId} userVoteValue={postStateValue.postVotes.find((vote) => vote.postId === item.id)?.voteValue}
             onVote={onVote}
             onSelectPost={onSelectPost}
             onDeletePost={onDeletePost} /> )}

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { storage, firestore, auth } from '../firebase/clientApp'
 import { deleteObject ,ref } from 'firebase/storage'
 import {
     collection,
@@ -10,20 +11,27 @@ import {
     where,
     writeBatch,
 } from "firebase/firestore";
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { authModalState } from '../atoms/authModalAtom';
 import { postState, Post, PostVote } from '../atoms/postsAtom'
-import { storage, firestore, auth } from '../firebase/clientApp'
+import { Community, communityState } from "../atoms/communitiesAtom";
+
 
 
 const usePosts:React.FC = () => {
     const [user] = useAuthState(auth)
     const [postStateValue, setPostStateValue] = useRecoilState(postState)
-
+    const currentCommunity = useRecoilValue(communityState).currentCommunity
+    const setAuthModalState = useSetRecoilState(authModalState)
     const onVote = async (post: Post, vote: number, communityId: string) => {
+        if (!user?.uid) {
+            setAuthModalState({ open: true, view: 'login' })
+            return
+        }
         try {
             const { voteStatus } = post;
-            const exixtingVote = postStateValue.postVotes.find((vote) => vote.postId === post.id)
+            const existingVote = postStateValue.postVotes.find((vote) => vote.postId === post.id)
 
             const batch = writeBatch(firestore)
             const updatedPost = { ...post }
@@ -61,9 +69,32 @@ const usePosts:React.FC = () => {
                     updatedPost.voteStatus = voteStatus + 2*vote;
 
                     const voteIdx = postStateValue.postVotes.findIndex((vote) => vote.id === existingVote.id)
+
+                    updatedPostVotes[voteIdx] = {
+                        ...existingVote,
+                        voteValue: vote,
+                    }
+
+                    batch.update(postVoteRef, {
+                        voteValue: vote,
+                    })
+
+                    voteChange = 2 * vote
                 }
             }
-            
+            const postRef = doc(firestore, 'posts', post.id!)
+            batch.update(postRef, { voteStatus: voteStatus + voteChange })
+
+            await batch.commit()
+
+            const postIdx = postStateValue.posts.findIndex((item) => item.id === post.id)
+            updatedPosts[postIdx] = updatedPost
+
+            setPostStateValue((prev) => ({
+                ...prev, 
+                posts: updatedPosts,
+                postVotes: updatedPostVotes,
+            }))
 
         } catch (error) {
             console.log(error)
@@ -95,6 +126,39 @@ const usePosts:React.FC = () => {
         }
         
     }
+
+    const getCommunityPostVotes = async (communityId: string) => {
+        const postVotesQuery = query(collection(firestore, 'users', `${user?.uid}/postVotes`), 
+        where('communityId', '==', communityId))
+
+        const postVoteDocs = await getDocs(postVotesQuery)
+        const postVotes = postVoteDocs.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+        }))
+        setPostStateValue((prev) => ({
+            ...prev,
+            postVotes: postVotes as PostVote[],
+        }))
+    }
+
+    useEffect(() => {
+      if (!user || !currentCommunity?.id) {
+        return
+      }
+      getCommunityPostVotes(currentCommunity?.id)
+    }, [user, currentCommunity])
+    
+    useEffect(() => {
+    if (!user) {
+        setPostStateValue((prev) => ({
+            ...prev,
+            postVotes: [],
+        }))
+    }  
+    
+    }, [user])
+    
 
     return {
         postStateValue,
