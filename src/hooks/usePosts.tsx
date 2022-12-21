@@ -15,16 +15,19 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { authModalState } from '../atoms/authModalAtom';
 import { postState, Post, PostVote } from '../atoms/postsAtom'
+import { useRouter } from 'next/router';
 import { Community, communityState } from "../atoms/communitiesAtom";
 
 
 
 const usePosts:React.FC = () => {
     const [user] = useAuthState(auth)
+    const router = useRouter()
     const [postStateValue, setPostStateValue] = useRecoilState(postState)
     const currentCommunity = useRecoilValue(communityState).currentCommunity
     const setAuthModalState = useSetRecoilState(authModalState)
-    const onVote = async (post: Post, vote: number, communityId: string) => {
+    const onVote = async (event: React.MouseEvent<SVGElement, MouseEvent>, post: Post, vote: number, communityId: string) => {
+        event.stopPropagation()
         if (!user?.uid) {
             setAuthModalState({ open: true, view: 'login' })
             return
@@ -82,10 +85,6 @@ const usePosts:React.FC = () => {
                     voteChange = 2 * vote
                 }
             }
-            const postRef = doc(firestore, 'posts', post.id!)
-            batch.update(postRef, { voteStatus: voteStatus + voteChange })
-
-            await batch.commit()
 
             const postIdx = postStateValue.posts.findIndex((item) => item.id === post.id)
             updatedPosts[postIdx] = updatedPost
@@ -96,13 +95,31 @@ const usePosts:React.FC = () => {
                 postVotes: updatedPostVotes,
             }))
 
+            if (postStateValue.selectedPost) {
+                setPostStateValue((prev) => ({
+                    ...prev,
+                    selectedPost: updatedPost,
+                }))
+            }
+
+            const postRef = doc(firestore, 'posts', post.id!)
+            batch.update(postRef, { voteStatus: voteStatus + voteChange })
+
+            await batch.commit()
+
+            
+
         } catch (error) {
             console.log(error)
         }
     } 
 
-    const onSelectPost = () => {
-
+    const onSelectPost = (post: Post) => {
+        setPostStateValue((prev) => ({
+            ...prev,
+            selectedPost: post,
+        }))
+        router.push(`/r/${post.communityId}/comments/${post.id}`)
     }
 
     const onDeletePost = async (post: Post): Promise<boolean> => {
