@@ -11,6 +11,7 @@ import {
   IoArrowUpCircleSharp,
   IoBookmarkOutline,
 } from "react-icons/io5";
+import { Post } from "../../../atoms/postsAtom";
 import { Flex, Button, Text, Box, Icon, Stack, Image, Skeleton } from "@chakra-ui/react"; 
 import moment from 'moment';
 
@@ -18,7 +19,7 @@ type PostItemProps = {
     post: Post;
     userIsCreator: boolean;
     userVoteValue?: number;
-    onVote: () => {};
+    onVote: (post: Post, vote: number, communityId: string) => void;
     onDeletePost: (post: Post) => Promise<boolean>;
     onSelectPost: () => void;
 
@@ -58,13 +59,13 @@ const PostItem:React.FC<PostItemProps> = ({ post, userIsCreator, userVoteValue, 
                 color={userVoteValue === 1 ? 'orange' : '#5596E6'}
                 fontSize={22}
                 cursor="pointer"
-                onClick={onVote} />
+                onClick={() => onVote(post, 1, post.communityId)} />
                 <Text fontSize="9pt" color="#5596E6">{post.voteStatus}</Text>
                 <Icon as={userVoteValue === -1 ? IoArrowDownCircleSharp : IoArrowDownCircleOutline}
                 color={userVoteValue === -1 ? '#4379ff' : '#5596E6'}
                 cursor="pointer"
                 fontSize={22}
-                onClick={onVote} />
+                onClick={() => onVote(post, -1, post.communityId)} />
             </Flex>
             <Flex direction="column"
             width="100%"
