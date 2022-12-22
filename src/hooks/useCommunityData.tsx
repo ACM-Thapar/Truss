@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { authModalState } from '../atoms/authModalAtom';
-import { doc, runTransaction, serverTimestamp, setDoc, getDocs, collection, writeBatch, increment } from "firebase/firestore";
+import { doc, runTransaction, serverTimestamp, setDoc, getDocs, getDoc, collection, writeBatch, increment } from "firebase/firestore";
 import { communityState, Community, CommunitySnippet } from '../atoms/communitiesAtom';
 import { auth, firestore } from '../firebase/clientApp';
+import { useRouter } from 'next/router';
 
 const useCommunityData = () => {
     const [user] = useAuthState(auth)
+    const router = useRouter()
     const [communityStateValue, setCommunityStateValue] = useRecoilState(communityState);
     const setAuthModalState = useSetRecoilState(authModalState)
     const [loading, setLoading] = useState(false);
@@ -93,6 +95,20 @@ const useCommunityData = () => {
         setLoading(false);
     }
 
+    const getCommunityData = async (communityId: string) => {
+        try {
+            const communityDocRef = doc(firestore, 'communities', communityId);
+            const communityDoc = await getDoc(communityDocRef);
+
+            setCommunityStateValue((prev) => ({
+                ...prev,
+                currentCommunity: { id: communityDoc.id, ...communityDoc.data()} as Community,
+            }))
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
         if (!user) {
             setCommunityStateValue((prev) => ({
@@ -104,6 +120,14 @@ const useCommunityData = () => {
         getMySnippets()
     }, [user])
     
+    useEffect(() => {
+        const { communityId } = router.query
+        if (communityId && !communityStateValue.communityData) {
+            getCommunityData(communityId as string)
+        }
+    }, [router.query, communityStateValue.communityData])
+    
+
     return {
         communityStateValue,
         onJoinOrLeaveCommunity,
