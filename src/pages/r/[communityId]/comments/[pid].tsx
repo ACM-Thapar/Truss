@@ -7,9 +7,10 @@ import About from '../../../../components/Community/About';
 import { auth, firestore } from '../../../../firebase/clientApp';
 import { useRouter } from 'next/router';
 import { doc, getDoc } from 'firebase/firestore';
-import { Post } from '../../../../atoms/postsAtom';
+import { Post, postState, PostVote } from '../../../../atoms/postsAtom';
 import useCommunityData from '../../../../hooks/useCommunityData';
-
+import Comments from '../../../../components/Posts/Comments/Comments';
+import { User } from 'firebase/auth';
 
 const PostPage:React.FC = () => {
     const { postStateValue, setPostStateValue, onVote, onDeletePost } = usePosts()
@@ -47,6 +48,7 @@ const PostPage:React.FC = () => {
                 onDeletePost={onDeletePost}
                 userVoteValue={postStateValue.postVotes.find((item) => item.postId === postStateValue.selectedPost?.id)?.voteValue}
                 userIsCreator={user?.uid === postStateValue.selectedPost?.creatorId}  />)}
+                <Comments user={user as User} selectedPost={postStateValue.selectedPost} communityId={postStateValue.selectedPost?.communityId as string} />
             </>
             <>
                 {communityStateValue.currentCommunity && (<About communityData={communityStateValue.currentCommunity} />)}
