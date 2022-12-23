@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { User } from 'firebase/auth'
 import { Post, postState } from '../../../atoms/postsAtom';
 import { useSetRecoilState } from 'recoil';
-import { Box, Flex, Button, Text, Input, Textarea } from '@chakra-ui/react';
+import { Box, Flex, Button, Text, Input, Textarea, Stack, SkeletonCircle, SkeletonText } from '@chakra-ui/react';
 import CommentInput from './CommentInput';
 import {
     collection,
@@ -17,6 +17,7 @@ import {
     Timestamp,
   } from "firebase/firestore";
 import { firestore } from "../../../firebase/clientApp";
+import CommentItem, { Comment } from './CommentItem';
 
 type CommentsProps = {
     user: User,
@@ -24,25 +25,19 @@ type CommentsProps = {
     communityId: string,
 };
 
-export type Comment = {
-    id: string,
-    creatorId: string,
-    creatorDisplayText: string,
-    communityId: string,
-    postId: string,
-    postTitle: string,
-    text: string,
-    createdAt: Timestamp,
-}
+
 
 const Comments:React.FC<CommentsProps> = ({ user, selectedPost, communityId }) => {
     const [commentText, setCommentText] = useState('')
     const [comments, setComments] = useState<Comment[]>([])
-    const [fetchLoading, setFetchLoading] = useState(false)
+    const [fetchLoading, setFetchLoading] = useState(true)
     const [createLoading, setCreateLoading] = useState(false)
 
     const setPostState = useSetRecoilState(postState)
 
+    const onDeleteComment = async (comment: any): Promise<boolean> => {
+        return true;
+    }
     const onCreateComment = async () => {
         setCreateLoading(true)
         try {
@@ -63,6 +58,8 @@ const Comments:React.FC<CommentsProps> = ({ user, selectedPost, communityId }) =
             }
 
             batch.set(commentDocRef, newComment)
+
+            newComment.createdAt = { seconds: Date.now() / 1000} as Timestamp
 
             const postDocRef = doc(firestore, 'posts', selectedPost?.id!)
             batch.update(postDocRef, {
@@ -87,6 +84,29 @@ const Comments:React.FC<CommentsProps> = ({ user, selectedPost, communityId }) =
         setCreateLoading(false)
     }
 
+    const getPostComments = async () => {
+        try {
+            const commentsQuery = query(collection(firestore, 'comments'), where('postId', '==', selectedPost?.id), orderBy('createdAt', 'desc'))
+            const commentDocs = await getDocs(commentsQuery)
+            const comments = commentDocs.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+            }))
+            setComments(comments as Comment[])
+        } catch (error) {
+            console.log(error)
+        }
+        setFetchLoading(false)
+    }
+
+    useEffect(() => {
+      if (!selectedPost) {
+        return
+      }
+      getPostComments()
+    }, [selectedPost])
+    
+
     return (
         <Box
         bg="white"
@@ -108,6 +128,42 @@ const Comments:React.FC<CommentsProps> = ({ user, selectedPost, communityId }) =
                 createLoading={createLoading}
                 onCreateComment={onCreateComment} />
             </Flex>
+            <Stack
+            spacing={6}
+            p={2}
+            >
+                {fetchLoading ? (
+                    <>
+                        {[0, 1, 2].map((item) => (
+                            <Box key={item} padding="6" bg="white">
+                                <SkeletonCircle size="10" />
+                                <SkeletonText mt="4" noOfLines={2} spacing="4" />
+                            </Box>
+                        ))}
+                    </>
+                ) : (
+                    <>
+                        {comments.length === 0 ? (
+                            <Flex
+                            direction="column"
+                            justify="center"
+                            align="center"
+                            borderTop="1px solid"
+                            borderColor="gray.100"
+                            p={20}>
+                                <Text fontWeight={700} opacity={0.3}>No Comments Yet</Text>
+                            </Flex>
+                        ) : (
+                            <>
+                                {comments.map((comment) => (
+                                    <CommentItem comment={comment} onDeleteComment={onDeleteComment} loadingDelete={false} userId={user.uid} />
+                                ))}
+                            </>
+                        )}
+                    </>
+                )}
+                
+            </Stack>
         </Box>
     )
 }
