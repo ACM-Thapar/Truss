@@ -32,11 +32,38 @@ const Comments:React.FC<CommentsProps> = ({ user, selectedPost, communityId }) =
     const [comments, setComments] = useState<Comment[]>([])
     const [fetchLoading, setFetchLoading] = useState(true)
     const [createLoading, setCreateLoading] = useState(false)
+    const[loadingDeleteId, setLoadingDeleteId] = useState('')
 
     const setPostState = useSetRecoilState(postState)
 
-    const onDeleteComment = async (comment: any): Promise<boolean> => {
-        return true;
+    const onDeleteComment = async (comment: Comment): Promise<boolean> => {
+        setLoadingDeleteId(comment.id)
+        try {
+            const batch = writeBatch(firestore)
+
+            const commentDocRef = doc(firestore, 'comments', comment.id)
+            batch.delete(commentDocRef)
+
+            const postDocRef = doc(firestore, 'posts', selectedPost?.id!)
+            batch.update(postDocRef, {
+                numberOfComments: increment(-1),
+            })
+
+            await batch.commit()
+
+            setPostState((prev) => ({
+                ...prev,
+                selectedPost: {
+                    ...prev.selectedPost,
+                    numberOfComments: prev.selectedPost?.numberOfComments! - 1,
+                } as Post,
+            }))
+
+            setComments((prev) => prev.filter((item) => item.id !== comment.id))
+        } catch (error) {
+            console.log(error)
+        }
+        setLoadingDeleteId('')
     }
     const onCreateComment = async () => {
         setCreateLoading(true)
@@ -109,12 +136,14 @@ const Comments:React.FC<CommentsProps> = ({ user, selectedPost, communityId }) =
 
     return (
         <Box
-        bg="white"
+        bg="none"
+        boxShadow="7px 7px 14px #161618, -7px -7px 14px #1e2022"
         borderRadius="0px 0px 4px 4px"
-        color="black"
+        color="#5596E6"
         p={2} >
             <Flex
             direction="column"
+            // boxShadow="7px 7px 14px #161618, -7px -7px 14px #1e2022"
             pl={10}
             pr={4}
             mb={6}
@@ -122,6 +151,7 @@ const Comments:React.FC<CommentsProps> = ({ user, selectedPost, communityId }) =
             width="100%"
              >
                 <CommentInput
+                
                 commentText={commentText}
                 setCommentText={setCommentText}
                 user={user}
@@ -156,7 +186,7 @@ const Comments:React.FC<CommentsProps> = ({ user, selectedPost, communityId }) =
                         ) : (
                             <>
                                 {comments.map((comment) => (
-                                    <CommentItem comment={comment} onDeleteComment={onDeleteComment} loadingDelete={false} userId={user.uid} />
+                                    <CommentItem key={comment.id} comment={comment} onDeleteComment={onDeleteComment} loadingDelete={loadingDeleteId === comment.id} userId={user.uid} />
                                 ))}
                             </>
                         )}
