@@ -17,7 +17,7 @@ const CommentInput:React.FC<CommentInputProps> = ({ commentText, setCommentText,
         <Flex direction="column" position="relative">
           {user ? (
             <>
-              <Text mb={1}>
+              <Text mb={1} color="white">
                 Comment as{" "}
                 <span style={{ color: "#3182CE" }}>
                   {user?.email?.split("@")[0]}
@@ -28,15 +28,13 @@ const CommentInput:React.FC<CommentInputProps> = ({ commentText, setCommentText,
                 onChange={(event) => setCommentText(event.target.value)}
                 placeholder="What are your thoughts?"
                 fontSize="10pt"
+                border="none"
+                boxShadow="inset 5px 5px 10px #161719, inset -5px -5px 10px #1e1f21"
                 borderRadius={4}
                 minHeight="160px"
                 pb={10}
                 _placeholder={{ color: "gray.500" }}
-                _focus={{
-                  outline: "none",
-                  bg: "white",
-                  border: "1px solid black",
-                }}
+                _focus={{ borderColor: "none", border: "none", outline: "none"}}
               />
               <Flex
                 position="absolute"
@@ -44,14 +42,20 @@ const CommentInput:React.FC<CommentInputProps> = ({ commentText, setCommentText,
                 right={0.1}
                 bottom="1px"
                 justify="flex-end"
-                bg="gray.100"
+                bg='#1a1b1d'
+                boxShadow="inset 9px 9px 18px #17181a, inset -9px -9px 18px #1d1e20"
                 p="6px 8px"
                 borderRadius="0px 0px 4px 4px"
               >
                 <Button
                   height="26px"
+                  bg="none"
+                  boxShadow="5px 5px 10px #161719, -5px -5px 10px #1e1f21"
+                  _hover={{boxShadow: 'inset 5px 5px 10px #161719, inset -5px -5px 10px #1e1f21'}}
                   disabled={!commentText.length}
                   isLoading={createLoading}
+                  fontSize="10pt"
+                  p={4}
                   onClick={() => onCreateComment(commentText)}
                 >
                   Comment

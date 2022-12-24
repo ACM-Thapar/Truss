@@ -32,15 +32,15 @@ const CommentItem:React.FC<CommentItemProps> = ({ comment, onDeleteComment, load
             <Box mr={2}>
                 <Icon as={FaReddit}
                 fontSize={30}
-                color="gray.300" />
+                color="#5596E6" />
             </Box>
             <Stack spacing={1}>
                 <Stack 
                 direction="row"
                 align="center"
                 fontSize="8pt"
-                color="black" >
-                    <Text color="black"
+                color="#5596E6" >
+                    <Text color="white"
                     fontWeight={700} >
                         {comment.creatorDisplayText}
                     </Text>
