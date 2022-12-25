@@ -8,6 +8,7 @@ import {
     MenuGroup,
     MenuOptionGroup,
     MenuDivider,
+    Image
   } from '@chakra-ui/react'
 import { User } from 'firebase/auth';
 import { TiHome } from 'react-icons/ti';
@@ -38,9 +39,19 @@ const Directory:React.FC = () => {
             onClick={toggleMenuOpen}>
                 <Flex align="center" justify="space-between" width={{base: 'auto', lg: '100px'}}>
                     <Flex align="center">
-                        <Icon fontSize={24} mr={{ base: 1, md: 2}} as={TiHome} />
+                        {directoryState.selectedMenuItem.imageURL ? (
+                            <Image src={directoryState.selectedMenuItem.imageURL} borderRadius="full" boxSize="24px"
+                            mr={2} />
+                        ) : (
+                            <Icon fontSize={24} mr={{ base: 1, md: 2}} 
+                            as={directoryState.selectedMenuItem.icon}
+                            color={directoryState.selectedMenuItem.iconColor} />
+                        )}
+                        
                         <Flex display={{ base: "none", lg: "flex"}}>
-                            <Text fontWeight={600} fontSize="10pt">Home</Text>
+                            <Text fontWeight={600} fontSize="10pt">
+                                {directoryState.selectedMenuItem.displayText}
+                            </Text>
                         </Flex>
                     </Flex>
                 <ChevronDownIcon />
