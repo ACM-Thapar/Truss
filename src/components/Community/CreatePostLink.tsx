@@ -14,7 +14,7 @@ const CreatePostLink: React.FC = () => {
     const router = useRouter()
     const [user] = useAuthState(auth)
     const setAuthModalState = useSetRecoilState(authModalState)
-    const { toggleMenuOpen } = useDirectory
+    const { toggleMenuOpen } = useDirectory()
 
     const onClick = () => {
         if (!user) {

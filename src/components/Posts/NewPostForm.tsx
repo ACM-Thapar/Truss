@@ -78,6 +78,7 @@ const NewPostForm:React.FC<NewPostFormProps> = ({ communityId,
         const { communityId } = router.query;
         const newPost: Post = {
             communityId: communityId as string,
+            communityImageURL: communityImageURL || "",
             creatorId: user?.uid,
             creatorDisplayName: user.email!.split('@')[0],
             title: textInputs.title,
