@@ -81,6 +81,7 @@ const Recommendations:React.FC = () => {
                             return (
                                 <Link key={item.id} href={`/r/${item.id}`}>
                                     <Flex
+                                    position='relative'
                                     align='center'
                                     fontSize='10pt'
                                     borderBottom='1px solid'
@@ -104,12 +105,14 @@ const Recommendations:React.FC = () => {
                                                 </span>
                                             </Flex>
                                         </Flex>
-                                        <Box>
+                                        <Box
+                                        position="absolute"
+                                        right='10px'>
                                             <Button 
                                             height='22px'
                                             fontSize='8pt'
                                             onClick={(event) => {
-                                                event.stopPropagation();
+                                                event.preventDefault()
                                                 onJoinOrLeaveCommunity(item, isJoined)
                                             }}>
                                                 {isJoined ? 'Joined' : 'Join'}
@@ -119,6 +122,11 @@ const Recommendations:React.FC = () => {
                                 </Link>
                             )
                         })}
+                        <Box p='10px 20px'>
+                            <Button height='30px' width='100%'>
+                                View All
+                            </Button>
+                        </Box>
                     </>
                 )}
             </Flex>
