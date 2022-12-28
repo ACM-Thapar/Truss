@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Icon, Flex, Checkbox, Stack, Input ,Text, Divider, Box, Button, ModalOverlay, Modal, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Lorem, ModalFooter } from '@chakra-ui/react';
+import { Icon, Flex, Checkbox, Stack, Input ,Text, Divider, Box, Button, ModalOverlay, Modal, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter } from '@chakra-ui/react';
 import { BsFillEyeFill, BsFillPersonFill } from 'react-icons/bs';
 import { HiLockClosed } from 'react-icons/hi';
 import { doc, runTransaction, serverTimestamp, setDoc, getDoc } from "firebase/firestore";
