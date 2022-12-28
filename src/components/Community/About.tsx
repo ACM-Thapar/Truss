@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react';
-import { Community } from '../../atoms/communitiesAtom';
 import { Box, Flex, Text, Icon, Stack, Divider, Button, Spinner, Image } from '@chakra-ui/react';
 import { RiCakeLine } from 'react-icons/ri';
 import moment from "moment";
