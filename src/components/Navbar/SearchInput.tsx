@@ -13,8 +13,9 @@ const SearchInput:React.FC<SearchInputProps> = ({ user }) => {
             <InputGroup>
                 <InputLeftElement
                     pointerEvents='none'
-                    children={<SearchIcon color='#5596E6' mb={1}/>}
-                />
+                >
+                    <SearchIcon color='#5596E6' mb={1}/>
+                </InputLeftElement>
                 <Input type='tel' placeholder='Search Truss' fontSize="16px" 
                 _placeholder={{color: "#5596E6"}} 
                 height="34px" 
