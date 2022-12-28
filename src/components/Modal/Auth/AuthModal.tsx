@@ -18,7 +18,9 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../../../firebase/clientApp';
 import ResetPassword from './ResetPassword';
 
-type AuthModalProps = {};
+type AuthModalProps = {
+    toggleModal: () => void;
+};
 
 const AuthModal:React.FC<AuthModalProps> = () => {
     const [modalState, setModalState] = useRecoilState(authModalState);
