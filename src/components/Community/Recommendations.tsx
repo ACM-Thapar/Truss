@@ -96,7 +96,7 @@ const Recommendations:React.FC = () => {
                                             align='center'
                                             width='80%'>
                                                 {item.imageURL ? (
-                                                    <Image src={item.imageURL} borderRadius='full' boxSize='28px' mr={2} />
+                                                    <Image alt="image" src={item.imageURL} borderRadius='full' boxSize='28px' mr={2} />
                                                 ): (
                                                     <Icon as={FaReddit} fontSize={30} color="blue" mr={2} />
                                                 )}
