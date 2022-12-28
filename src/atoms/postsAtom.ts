@@ -15,7 +15,7 @@ export type Post = {
     communityImageURL?: string; 
 }
 
-export type postVote = {
+export type PostVote = {
     id: string;
     postId: string;
     communityId: string;
