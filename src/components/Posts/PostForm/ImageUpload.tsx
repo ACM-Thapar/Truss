@@ -20,7 +20,7 @@ const ImageUpload:React.FC<ImageUploadProps> = ({ selectedFile, onSelectImage, s
             {selectedFile ? (
                 <>
                     <Image src={selectedFile}
-                    maxWidth="400px" maxHeight="400px" />
+                    maxWidth="400px" maxHeight="400px" alt="image" />
                     <Stack direction="row" mt={4}>
                         <Button
                         height="28px"
