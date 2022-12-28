@@ -7,12 +7,13 @@ import { useRecoilValue } from 'recoil'
 import { communityState } from '../atoms/communitiesAtom'
 import { query, collection, orderBy, limit, getDocs, doc, where } from 'firebase/firestore' 
 import usePosts from '../hooks/usePosts'
-import { Post } from '../atoms/postsAtom'
+import { Post, PostVote } from '../atoms/postsAtom'
 import PostLoader from '../components/Posts/PostLoader'
 import { Stack, Text } from '@chakra-ui/react'
 import CreatePostLink from '../components/Community/CreatePostLink'
 import PostItem from '../components/Posts/PostItem'
 import useCommunityData from '../hooks/useCommunityData'
+import Recommendations from '../components/Community/Recommendations'
 
 const Home: NextPage = () => {
   const [user, loadingUser] = useAuthState(auth)
@@ -67,7 +68,25 @@ const Home: NextPage = () => {
     setLoading(false)
   }
 
-  const getUserPostVotes = () => {}
+  const getUserPostVotes = async () => {
+    try {
+      const postIds = postStateValue.posts.map((post) => post.id)
+      const postVotesQuery = query(collection(firestore, `users/${user?.uid}/postVotes`),
+      where('postId', 'in', postIds)
+      )
+      const postVoteDocs = await getDocs(postVotesQuery)
+      const postVotes = postVoteDocs.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data()
+      }))
+      setPostStateValue((prev) => ({
+        ...prev,
+        postVotes: postVotes as PostVote[],
+      }))
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   useEffect(() => {
     if (communityStateValue.snippetsFetched) {
@@ -81,6 +100,19 @@ const Home: NextPage = () => {
       buildNoUserHomeFeed()   
     }
   }, [user, loadingUser])
+
+  useEffect(() => {
+    if (user && postStateValue.posts.length) {
+      getUserPostVotes()
+    }
+    return () => {
+      setPostStateValue((prev) => ({
+        ...prev,
+        postVotes: [],
+      }))
+    } //cleanup
+  }, [user, postStateValue.posts])
+  
   
 
   return (
@@ -106,7 +138,7 @@ const Home: NextPage = () => {
         )} 
       </>
       <>
-        <Text>Hello</Text>
+        <Recommendations />
       </>
     </PageContent>
   )
