@@ -8,7 +8,7 @@ import { FaReddit } from 'react-icons/fa';
 import Link from 'next/link';
 
 const Recommendations:React.FC = () => {
-    const [communities, setCommunities] = useState<Community>([])
+    const [communities, setCommunities] = useState<Community[]>([])
     const [loading, setLoading] = useState(false)
     const { communityStateValue, onJoinOrLeaveCommunity } = useCommunityData()
     
