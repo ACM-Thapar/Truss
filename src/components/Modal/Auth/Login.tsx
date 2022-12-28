@@ -8,10 +8,10 @@ import { FIREBASE_ERRORS } from '../../../firebase/errors';
 
 
 type LoginProps = {
-    
+    toggleView: (view: ModalView) => void;
 };
 
-const Login:React.FC<LoginProps> = () => {
+const Login:React.FC<LoginProps> = ({ toggleView }) => {
     const [loginForm, setLoginForm] = useState({
         email: '',
         password: '',

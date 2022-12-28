@@ -10,10 +10,10 @@ import { User } from 'firebase/auth'
 import { FIREBASE_ERRORS } from '../../../firebase/errors';
 
 type SignUpProps = {
-    
+    toggleView: (view: ModalView) => void;
 };
 
-const SignUp:React.FC<LoginProps> = () => {
+const SignUp:React.FC<LoginProps> = ({ toggleView }) => {
     const [signUpForm, setSignUpForm] = useState({
         email: '',
         password: '',

@@ -26,7 +26,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ toggleView }) => {
   return (
     <Flex direction="column" alignItems="center" width="100%">
       {/* <Icon as={BsReddit} color="brand.100" fontSize={40} mb={2} /> */}
-      <Image src="/images/logo.png" height="200px"/>
+      <Image alt="image" src="/images/logo.png" height="200px"/>
       <Text fontWeight={700} mb={2}>
         Reset your password
       </Text>
