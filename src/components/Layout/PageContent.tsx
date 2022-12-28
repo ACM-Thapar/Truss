@@ -1,11 +1,8 @@
-import React from 'react';
+import React, {PropsWithChildren} from 'react';
 import { Flex, Text, Box } from '@chakra-ui/react' 
 
-type PageContentProps = {
-    
-};
 
-const PageContent:React.FC<PageContentProps> = ({ children }) => {
+const PageContent:React.FC<PropsWithChildren> = ({ children }) => {
     
     return (
         <Flex
