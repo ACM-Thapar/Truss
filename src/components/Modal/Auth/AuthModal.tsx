@@ -19,7 +19,7 @@ import { auth } from '../../../firebase/clientApp';
 import ResetPassword from './ResetPassword';
 
 type AuthModalProps = {
-    toggleModal: () => void;
+    toggleView: () => void;
 };
 
 const AuthModal:React.FC<AuthModalProps> = () => {
