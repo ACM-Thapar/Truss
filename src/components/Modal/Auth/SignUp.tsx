@@ -13,7 +13,7 @@ type SignUpProps = {
     
 };
 
-const SignUp:React.FC<LoginProps> = () => {
+const SignUp:React.FC<SignUpProps> = () => {
     const [signUpForm, setSignUpForm] = useState({
         email: '',
         password: '',
