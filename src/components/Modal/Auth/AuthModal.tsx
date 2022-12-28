@@ -11,7 +11,7 @@ import {
     Text
 } from '@chakra-ui/react'
 import { useRecoilState } from 'recoil';
-import { authModalState } from '../../../atoms/authModalAtom';
+import { authModalState, ModalView } from '../../../atoms/authModalAtom';
 import AuthInputs from './AuthInputs';
 import OAuthButtons from './OAuthButtons';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -19,7 +19,7 @@ import { auth } from '../../../firebase/clientApp';
 import ResetPassword from './ResetPassword';
 
 type AuthModalProps = {
-    toggleView: () => void;
+    toggleView: (view: ModalView) => void;
 };
 
 const AuthModal:React.FC<AuthModalProps> = () => {
