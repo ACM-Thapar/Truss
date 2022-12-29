@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { User } from 'firebase/auth'
 import { Post, postState } from '../../../atoms/postsAtom';
 import { useSetRecoilState } from 'recoil';
@@ -36,7 +36,7 @@ const Comments:React.FC<CommentsProps> = ({ user, selectedPost, communityId }) =
 
     const setPostState = useSetRecoilState(postState)
 
-    const onDeleteComment = async (comment: Comment): Promise<boolean> => {
+    const onDeleteComment = async (comment: Comment) => {
         setLoadingDeleteId(comment.id)
         try {
             const batch = writeBatch(firestore)
