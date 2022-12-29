@@ -7,7 +7,6 @@ import { auth, firestore } from "../../../firebase/clientApp";
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/router';
 import useDirectory from '../../../hooks/useDirectory';
-import ModalWrapper from '../ModalWrapper';
 
 type CreateCommunityModalProps = {
     open: boolean;
@@ -89,7 +88,7 @@ const CreateCommunityModal:React.FC<CreateCommunityModalProps> = ({ open, handle
         <>
       
 
-      <ModalWrapper isOpen={open} onClose={handleClose}>
+      <Modal isOpen={open} onClose={handleClose} size="lg" bg="#1a1b1d"> 
         <ModalOverlay />
         <ModalContent 
         bg="#1a1b1d">
@@ -197,7 +196,7 @@ const CreateCommunityModal:React.FC<CreateCommunityModalProps> = ({ open, handle
             isLoading={loading}>Create Community</Button>
           </ModalFooter>
         </ModalContent>
-        </ModalWrapper>
+      </Modal>
     </>
     )
 }
