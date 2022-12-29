@@ -1,6 +1,7 @@
 import React from 'react';
 import { PhoneIcon, SearchIcon } from '@chakra-ui/icons';
 import { Flex, InputGroup, Input, InputLeftElement, InputRightElement } from '@chakra-ui/react';
+import { User } from 'firebase/auth';
 
 type SearchInputProps = {
     user?: User | null,
