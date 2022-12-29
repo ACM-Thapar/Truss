@@ -16,7 +16,7 @@ export type Post = {
 }
 
 export type PostVote = {
-    id: string;
+    id?: string;
     postId: string;
     communityId: string;
     voteValue: number;

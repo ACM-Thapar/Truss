@@ -77,6 +77,7 @@ const NewPostForm:React.FC<NewPostFormProps> = ({ communityId,
     const handleCreatePost = async () => {
         const { communityId } = router.query;
         const newPost: Post = {
+            id: '',
             communityId: communityId as string,
             communityImageURL: communityImageURL || "",
             creatorId: user?.uid,
