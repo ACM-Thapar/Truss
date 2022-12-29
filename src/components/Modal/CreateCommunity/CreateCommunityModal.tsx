@@ -88,7 +88,7 @@ const CreateCommunityModal:React.FC<CreateCommunityModalProps> = ({ open, handle
         <>
       
 
-      <Modal isOpen={open} onClose={handleClose} size="lg" bg="#1a1b1d"> 
+      <Modal isOpen={open} onClose={handleClose} size="lg" > 
         <ModalOverlay />
         <ModalContent 
         bg="#1a1b1d">
