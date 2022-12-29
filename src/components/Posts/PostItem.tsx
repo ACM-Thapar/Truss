@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Post } from '../../atoms/postsAtom'
 import { AiOutlineDelete } from "react-icons/ai";
 import { BsChat, BsDot } from "react-icons/bs";
 import { FaReddit } from "react-icons/fa";
@@ -10,7 +11,6 @@ import {
   IoArrowUpCircleSharp,
   IoBookmarkOutline,
 } from "react-icons/io5";
-import { Post } from "../../../atoms/postsAtom";
 import { Flex, Button, Text, Box, Icon, Stack, Image, Skeleton, Spinner } from "@chakra-ui/react"; 
 import moment from 'moment';
 import { useRouter } from 'next/router';
