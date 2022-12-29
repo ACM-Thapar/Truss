@@ -10,14 +10,14 @@ import PostItem from './PostItem';
 import PostLoader from './PostLoader';
 
 type PostsProps = {
-    communityData: Community;
+    communityData?: Community;
     
 };
 
 const Posts:React.FC<PostsProps> = ({ communityData }) => {
     const [user] = useAuthState(auth);
     const [loading, setLoading] = useState(false);
-    const { postStateValue, setPostStateValue, onVote, onDeletePost, onSelectPost } = usePosts()
+    const { postStateValue, setPostStateValue, onVote, onDeletePost, onSelectPost } = usePosts(communityData!)
 
     const getPosts = async () => {
         try {
