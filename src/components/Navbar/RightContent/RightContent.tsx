@@ -6,6 +6,7 @@ import AuthButtons from './AuthButtons';
 import AuthModal from '../../Modal/Auth/AuthModal'
 import Icons from './Icons';
 import UserMenu from './UserMenu';
+import { User } from 'firebase/auth'
 
 type RightContentProps = {
     user?: User | null;
