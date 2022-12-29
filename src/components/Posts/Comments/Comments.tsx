@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { User } from 'firebase/auth'
 import { Post, postState } from '../../../atoms/postsAtom';
 import { useSetRecoilState } from 'recoil';
