@@ -3,7 +3,7 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { authModalState } from '../atoms/authModalAtom';
 import { doc, runTransaction, serverTimestamp, setDoc, getDocs, getDoc, collection, writeBatch, increment } from "firebase/firestore";
-import { communityState, Community, CommunitySnippet, defaultCommunity } from '../atoms/communitiesAtom';
+import { communityState, Community, CommunitySnippet } from '../atoms/communitiesAtom';
 import { auth, firestore } from '../firebase/clientApp';
 import { useRouter } from 'next/router';
 
