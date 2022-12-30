@@ -45,7 +45,7 @@ const UserMenu:React.FC<UserMenuProps> = ({ user }) => {
                 (
                     
                     <>
-                        <Image alt="image" src="/images/acm1.png" boxSize="30px" mr={1} />
+                        <Image alt="image" src="/images/acm1.png" boxSize="28px" mr={1} />
                     
                     <Flex
                     direction="column"
