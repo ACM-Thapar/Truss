@@ -40,10 +40,11 @@ const Recommendations:React.FC = () => {
     return (
         <Flex
         direction="column"
-        bg='white'
+        bg='none'
+        boxShadow="9px 9px 18px #17181a, -9px -9px 18px #1d1e20"
         borderRadius={4}
-        border='1px solid'
-        borderColor='gray.300'>
+        color='#5596E6'
+        >
             <Flex
             align='flex-end'
             color='white'
@@ -51,9 +52,9 @@ const Recommendations:React.FC = () => {
             height='70px'
             borderRadius='4px 4px 0px 0px'
             fontWeight={700}
-            bgImage='url(/images/recCommsArt.png)'
+            bgImage='url(/images/acmlogo.png)'
             backgroundSize='cover'
-            bgGradient="linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75)),url('images/recCommsArt.png')">
+            bgGradient="linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75)),url('images/acmlogo.png')">
                 Top Communities
             </Flex>
             <Flex
@@ -84,13 +85,12 @@ const Recommendations:React.FC = () => {
                                     position='relative'
                                     align='center'
                                     fontSize='10pt'
-                                    borderBottom='1px solid'
-                                    borderColor='gray.200' 
+                                     
                                     p='10px 12px'>
                                         <Flex
                                         width='80%' align='center'>
                                             <Flex width='15%'>
-                                                <Text color="black">{index + 1}</Text>
+                                                <Text color="#5596E6">{index + 1}</Text>
                                             </Flex>
                                             <Flex 
                                             align='center'
@@ -98,9 +98,9 @@ const Recommendations:React.FC = () => {
                                                 {item.imageURL ? (
                                                     <Image alt="image" src={item.imageURL} borderRadius='full' boxSize='28px' mr={2} />
                                                 ): (
-                                                    <Icon as={FaReddit} fontSize={30} color="blue" mr={2} />
+                                                    <Image alt="image" src="/images/acm.png" borderRadius='full' boxSize='28px' color="#5596E6" mr={2} />
                                                 )}
-                                                <span style={{ color: 'black', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>
+                                                <span style={{ color: '#5596E6', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>
                                                     {`r/${item.id}`}
                                                 </span>
                                             </Flex>
@@ -109,8 +109,11 @@ const Recommendations:React.FC = () => {
                                         position="absolute"
                                         right='10px'>
                                             <Button 
+                                            bg='none'
                                             height='22px'
                                             fontSize='8pt'
+                                            boxShadow={isJoined ? 'inset 5px 5px 10px #161719, inset -5px -5px 10px #1e1f21' : "5px 5px 10px #161719, -5px -5px 10px #1e1f21"}
+                                            _hover={{ boxShadow: isJoined ? 'inset 5px 5px 10px #161719, inset -5px -5px 10px #1e1f21' : "5px 5px 10px #161719, -5px -5px 10px #1e1f21" }}
                                             onClick={(event) => {
                                                 event.preventDefault()
                                                 onJoinOrLeaveCommunity(item, isJoined)
@@ -123,7 +126,12 @@ const Recommendations:React.FC = () => {
                             )
                         })}
                         <Box p='10px 20px'>
-                            <Button height='30px' width='100%'>
+                            <Button height='30px' width='100%'
+                            bg='none'
+                            boxShadow="5px 5px 10px #161719, -5px -5px 10px #1e1f21"
+                            _hover={{ boxShadow: 'inset 5px 5px 10px #161719, inset -5px -5px 10px #1e1f21'}}
+                            _focus={{ bg: 'none'}}
+                            >
                                 View All
                             </Button>
                         </Box>

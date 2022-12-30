@@ -8,6 +8,7 @@ import {
     MenuGroup,
     MenuOptionGroup,
     MenuDivider,
+    Image
   } from '@chakra-ui/react'
 import { User } from 'firebase/auth';
 import { FaRedditSquare } from 'react-icons/fa';
@@ -44,7 +45,7 @@ const UserMenu:React.FC<UserMenuProps> = ({ user }) => {
                 (
                     
                     <>
-                        <Icon as={FaRedditSquare} fontSize={24} mr={1} color="blue" />
+                        <Image alt="image" src="/images/acm1.png" boxSize="30px" mr={1} />
                     
                     <Flex
                     direction="column"
