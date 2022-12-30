@@ -17,7 +17,7 @@ type PostsProps = {
 const Posts:React.FC<PostsProps> = ({ communityData }) => {
     const [user] = useAuthState(auth);
     const [loading, setLoading] = useState(false);
-    const { postStateValue, setPostStateValue, onVote, onDeletePost, onSelectPost } = usePosts(communityData!)
+    const { postStateValue, setPostStateValue, onVote, onDeletePost, onSelectPost } = usePosts()
 
     const getPosts = async () => {
         try {
