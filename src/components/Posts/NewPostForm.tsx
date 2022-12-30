@@ -23,7 +23,7 @@ import {
 
 
 type NewPostFormProps = {
-    communityId: string;
+    communityId: string | undefined;
     communityImageURL?: string;
     user: User;
 };

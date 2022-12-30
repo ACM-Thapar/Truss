@@ -16,7 +16,7 @@ const Navbar:React.FC = () => {
             <Flex align="center" width={{ base: '40px', md: 'auto'}} mr={{ base: 0, md: 2}}
             onClick={() => onSelectMenuItem(defaultMenuItem)}
             cursor="pointer">
-                <Image src="./images/logo.png" height="200px" />
+                <Image src="./images/logo.svg" height="150px" />
             </Flex>
             {user && <Directory />}
             <SearchInput user={user} />
