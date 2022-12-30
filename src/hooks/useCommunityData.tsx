@@ -125,10 +125,10 @@ const useCommunityData = () => {
     
     useEffect(() => {
         const { communityId } = router.query
-        if (communityId && !communityStateValue.communityData) {
+        if (communityId && !communityStateValue.currentCommunity) {
             getCommunityData(communityId as string)
         }
-    }, [router.query, communityStateValue.communityData])
+    }, [router.query, communityStateValue.currentCommunity])
     
 
     return {
