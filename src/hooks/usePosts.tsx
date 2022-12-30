@@ -20,7 +20,7 @@ import { Community, communityState } from "../atoms/communitiesAtom";
 
 
 
-const usePosts:React.FC = () => {
+const usePosts = () => {
     const [user] = useAuthState(auth)
     const router = useRouter()
     const [postStateValue, setPostStateValue] = useRecoilState(postState)
